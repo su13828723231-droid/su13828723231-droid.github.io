@@ -1,0 +1,2306 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="footer.company-name">筑梦空间 - 专业建筑模型制作公司</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- GSAP 动画库 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap');
+        
+        :root {
+            --primary-color: #0B3D91;
+            --secondary-color: #FFD700;
+            --dark-color: #1A1A2E;
+            --light-color: #F5F5F5;
+            --accent-color: #FF6B6B;
+        }
+        
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+        
+        .text-gradient {
+            background: linear-gradient(90deg, var(--primary-color), #1E88E5);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .bg-gradient {
+            background: linear-gradient(135deg, var(--primary-color), #1E88E5);
+        }
+        
+        .hero-section {
+            height: 100vh;
+            background-position: center;
+            background-size: cover;
+            position: relative;
+        }
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .section-padding {
+            padding: 6rem 0;
+        }
+        
+        .card {
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .project-card {
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .project-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(11, 61, 145, 0.8);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .project-card:hover .project-overlay {
+            opacity: 1;
+        }
+        
+        .team-card {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .team-overlay {
+            position: absolute;
+            bottom: -100%;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+            transition: bottom 0.3s ease;
+        }
+        
+        .team-card:hover .team-overlay {
+            bottom: 0;
+        }
+        
+        .service-icon {
+            transition: all 0.3s ease;
+        }
+        
+        .service-card:hover .service-icon {
+            transform: scale(1.2);
+            color: var(--primary-color);
+        }
+        
+        .progress-bar {
+            height: 8px;
+            border-radius: 4px;
+            background: #e0e0e0;
+            overflow: hidden;
+        }
+        
+        .progress-bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            background: linear-gradient(90deg, var(--primary-color), #1E88E5);
+            transition: width 1.5s ease;
+        }
+        
+        .testimonial-card {
+            transition: all 0.3s ease;
+        }
+        
+        .testimonial-card:hover {
+            transform: scale(1.03);
+        }
+        
+        .contact-info-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(11, 61, 145, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .contact-info-item:hover .contact-icon {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(11, 61, 145, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-5px);
+        }
+        
+        .upload-area {
+            border: 2px dashed #e0e0e0;
+            border-radius: 8px;
+            padding: 3rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .upload-area:hover {
+            border-color: var(--primary-color);
+            background: rgba(11, 61, 145, 0.05);
+        }
+        
+        .upload-icon {
+            font-size: 3rem;
+            color: #e0e0e0;
+            transition: all 0.3s ease;
+        }
+        
+        .upload-area:hover .upload-icon {
+            color: var(--primary-color);
+        }
+        
+        #model-container {
+            width: 100%;
+            height: 400px;
+            background: #f0f0f0;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .ai-preview-container {
+            background: #f9f9f9;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .ai-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .ai-feature {
+            flex: 1;
+            min-width: 250px;
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .ai-feature:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .ai-feature-icon {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .hero-section {
+                height: 70vh;
+            }
+            
+            .section-padding {
+                padding: 3rem 0;
+            }
+            
+            .mobile-menu {
+                display: none;
+            }
+            
+            .mobile-menu.active {
+                display: block;
+            }
+        }
+        
+        /* 动画类 */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        
+        .fade-in.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* 3D模型查看器样式 */
+        .model-viewer {
+            width: 100%;
+            height: 400px;
+            background-color: #f0f0f0;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .model-controls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+        
+        .model-control-btn {
+            background: rgba(255, 255, 255, 0.8);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .model-control-btn:hover {
+            background: white;
+            transform: scale(1.1);
+        }
+        
+        /* 文件上传进度条 */
+        .file-upload-progress {
+            height: 5px;
+            background: #e0e0e0;
+            border-radius: 3px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        
+        .file-upload-progress-bar {
+            height: 100%;
+            background: var(--primary-color);
+            border-radius: 3px;
+            width: 0;
+            transition: width 0.5s ease;
+        }
+        
+        /* 项目进度追踪样式 */
+        .project-timeline {
+            position: relative;
+            margin-top: 2rem;
+        }
+        
+        .project-timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: #e0e0e0;
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+            width: 100%;
+        }
+        
+        .timeline-content {
+            position: relative;
+            width: calc(50% - 30px);
+            padding: 1.5rem;
+            border-radius: 8px;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .timeline-content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .timeline-item:nth-child(odd) .timeline-content {
+            margin-left: auto;
+        }
+        
+        .timeline-item:nth-child(odd) .timeline-content::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: -20px;
+            width: 0;
+            height: 0;
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            border-right: 10px solid white;
+        }
+        
+        .timeline-item:nth-child(even) .timeline-content::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            right: -20px;
+            width: 0;
+            height: 0;
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            border-left: 10px solid white;
+        }
+        
+        .timeline-dot {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            z-index: 1;
+        }
+        
+        @media (max-width: 768px) {
+            .project-timeline::before {
+                left: 30px;
+            }
+            
+            .timeline-content {
+                width: calc(100% - 60px);
+                margin-left: 60px !important;
+            }
+            
+            .timeline-item:nth-child(odd) .timeline-content::before,
+            .timeline-item:nth-child(even) .timeline-content::before {
+                left: -20px;
+                right: auto;
+                border-right: 10px solid white;
+                border-left: none;
+            }
+            
+            .timeline-dot {
+                left: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="bg-white shadow-md fixed w-full z-50">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                    <a href="#" class="flex items-center">
+                        <span class="text-2xl font-bold text-[#0B3D91]">筑梦空间</span>
+                        <span class="ml-2 text-sm text-gray-500">建筑模型艺术</span>
+                    </a>
+                </div>
+                
+                <!-- 桌面导航 -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="text-gray-800 hover:text-[#0B3D91] font-medium transition-colors" data-i18n="nav.home">首页</a>
+                    <a href="#about" class="text-gray-800 hover:text-[#0B3D91] font-medium transition-colors" data-i18n="nav.about">关于我们</a>
+                    <a href="#services" class="text-gray-800 hover:text-[#0B3D91] font-medium transition-colors" data-i18n="nav.services">服务内容</a>
+                    <a href="#projects" class="text-gray-800 hover:text-[#0B3D91] font-medium transition-colors" data-i18n="nav.projects">项目案例</a>
+                    <a href="#team" class="text-gray-800 hover:text-[#0B3D91] font-medium transition-colors" data-i18n="nav.team">团队介绍</a>
+                    <a href="#upload" class="text-gray-800 hover:text-[#0B3D91] font-medium transition-colors" data-i18n="nav.upload">资料上传</a>
+                    <a href="#ai-preview" class="text-gray-800 hover:text-[#0B3D91] font-medium transition-colors" data-i18n="nav.ai-preview">AI预览</a>
+                    <a href="#contact" class="bg-[#0B3D91] text-white px-4 py-2 rounded-md hover:bg-opacity-90 transition-colors" data-i18n="nav.contact">联系我们</a>
+                    
+                    <!-- 语言切换器 -->
+                    <div class="relative">
+                        <select id="language-switcher" class="bg-gray-100 border border-gray-300 text-gray-700 py-1 px-3 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#0B3D91]">
+                            <option value="zh">中文</option>
+                            <option value="en">English</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- 移动端菜单按钮 -->
+                <div class="md:hidden">
+                    <button id="menu-toggle" class="text-gray-800 focus:outline-none">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 移动端导航菜单 -->
+            <div id="mobile-menu" class="mobile-menu mt-4 pb-4">
+                <a href="#home" class="block py-2 text-gray-800 hover:text-[#0B3D91] font-medium" data-i18n="nav.home">首页</a>
+                <a href="#about" class="block py-2 text-gray-800 hover:text-[#0B3D91] font-medium" data-i18n="nav.about">关于我们</a>
+                <a href="#services" class="block py-2 text-gray-800 hover:text-[#0B3D91] font-medium" data-i18n="nav.services">服务内容</a>
+                <a href="#projects" class="block py-2 text-gray-800 hover:text-[#0B3D91] font-medium" data-i18n="nav.projects">项目案例</a>
+                <a href="#team" class="block py-2 text-gray-800 hover:text-[#0B3D91] font-medium" data-i18n="nav.team">团队介绍</a>
+                <a href="#upload" class="block py-2 text-gray-800 hover:text-[#0B3D91] font-medium" data-i18n="nav.upload">资料上传</a>
+                <a href="#ai-preview" class="block py-2 text-gray-800 hover:text-[#0B3D91] font-medium" data-i18n="nav.ai-preview">AI预览</a>
+                <a href="#contact" class="block mt-2 bg-[#0B3D91] text-white px-4 py-2 rounded-md hover:bg-opacity-90 text-center" data-i18n="nav.contact">联系我们</a>
+                
+                <!-- 移动端语言切换器 -->
+                <div class="mt-4">
+                    <select id="mobile-language-switcher" class="w-full bg-gray-100 border border-gray-300 text-gray-700 py-2 px-3 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0B3D91]">
+                        <option value="zh">中文</option>
+                        <option value="en">English</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 英雄区域 -->
+    <section id="home" class="hero-section" style="background-image: url('https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/b90a5b8636d24b50bf31fdba171ae5ba~tplv-a9rns2rl98-image.image?rcl=202511271619564C8998130AF90513A3C5&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1766823628&x-signature=ogct4SUbNUu99PTT0LKJPvx7R0k%3D');">
+        <div class="container mx-auto px-4 h-full flex items-center justify-center">
+            <div class="hero-content text-center text-white">
+                <h1 class="text-4xl md:text-6xl font-bold mb-4">建筑模型艺术的极致呈现</h1>
+                <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">专业3D建模 · 匠心呈现 · 数字创意</p>
+                <div class="flex flex-col md:flex-row justify-center gap-4">
+                    <a href="#projects" class="bg-[#0B3D91] text-white px-8 py-3 rounded-md hover:bg-opacity-90 transition-colors text-lg font-medium">查看案例</a>
+                    <a href="#upload" class="bg-transparent border-2 border-white text-white px-8 py-3 rounded-md hover:bg-white hover:text-[#0B3D91] transition-colors text-lg font-medium">上传资料</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 关于我们 -->
+    <section id="about" class="section-padding bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4" data-i18n="about.title">关于我们</h2>
+                <div class="w-24 h-1 bg-[#0B3D91] mx-auto"></div>
+                <p class="mt-6 text-gray-600 max-w-3xl mx-auto" data-i18n="about.subtitle">筑梦空间成立于2010年，是一家专注于建筑模型设计制作及视觉艺术数字展示研发与应用的创意型公司。我们致力于将设计师的创意转化为精美的实体模型，为客户提供全方位的模型制作解决方案。</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div class="fade-in">
+                    <img src="https://p3-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/4f4c9c7f93af4c048360895e41bff1ae~tplv-a9rns2rl98-image.image?rcl=202511271619564C8998130AF90513A3C5&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1766823629&x-signature=QhJX2LJDF101JjcvtaiGmKQfw7M%3D" alt="公司办公环境" class="rounded-lg shadow-xl w-full">
+                </div>
+                
+                <div class="fade-in">
+                    <h3 class="text-2xl font-bold mb-4 text-[#0B3D91]" data-i18n="about.mission">我们的使命</h3>
+                    <p class="text-gray-700 mb-6" data-i18n="about.mission-text">通过精湛的工艺和创新的技术，将抽象的设计理念转化为具象的实体模型，为建筑设计、房地产展示、城市规划等领域提供直观、精准的视觉呈现。</p>
+                    
+                    <h3 class="text-2xl font-bold mb-4 text-[#0B3D91]" data-i18n="about.advantages">我们的优势</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="font-medium" data-i18n="about.technical-capability">技术实力</span>
+                                <span>95%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-bar-fill" style="width: 0%;" data-width="95%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="font-medium" data-i18n="about.creative-design">创意设计</span>
+                                <span>90%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-bar-fill" style="width: 0%;" data-width="90%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="font-medium" data-i18n="about.customer-service">客户服务</span>
+                                <span>98%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-bar-fill" style="width: 0%;" data-width="98%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="font-medium" data-i18n="about.project-management">项目管理</span>
+                                <span>92%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-bar-fill" style="width: 0%;" data-width="92%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-16 grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="bg-gray-50 p-6 rounded-lg text-center fade-in">
+                    <div class="text-4xl font-bold text-[#0B3D91] mb-2">15+</div>
+                    <div class="text-gray-600">年行业经验</div>
+                </div>
+                
+                <div class="bg-gray-50 p-6 rounded-lg text-center fade-in" style="transition-delay: 0.2s;">
+                    <div class="text-4xl font-bold text-[#0B3D91] mb-2">500+</div>
+                    <div class="text-gray-600">成功项目</div>
+                </div>
+                
+                <div class="bg-gray-50 p-6 rounded-lg text-center fade-in" style="transition-delay: 0.4s;">
+                    <div class="text-4xl font-bold text-[#0B3D91] mb-2">200+</div>
+                    <div class="text-gray-600">合作客户</div>
+                </div>
+                
+                <div class="bg-gray-50 p-6 rounded-lg text-center fade-in" style="transition-delay: 0.6s;">
+                    <div class="text-4xl font-bold text-[#0B3D91] mb-2">50+</div>
+                    <div class="text-gray-600">专业团队</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 服务内容 -->
+    <section id="services" class="section-padding bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">我们的服务</h2>
+                <div class="w-24 h-1 bg-[#0B3D91] mx-auto"></div>
+                <p class="mt-6 text-gray-600 max-w-3xl mx-auto">我们提供全方位的建筑模型制作服务，从概念设计到成品展示，满足不同客户的多样化需求。</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- 服务卡片 1 -->
+                <div class="service-card bg-white rounded-lg shadow-md p-6 fade-in">
+                    <div class="service-icon text-4xl text-[#0B3D91] mb-4">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">建筑模型制作</h3>
+                    <p class="text-gray-600 mb-4">以微缩实体的方式将设计师的意图转化成具体实物，让客户更加直观地了解设计师意图和构想，达到营销展示的效果。</p>
+                    <ul class="text-gray-600 space-y-2">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            房地产售楼模型
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            城市规划模型
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            商业综合体模型
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- 服务卡片 2 -->
+                <div class="service-card bg-white rounded-lg shadow-md p-6 fade-in" style="transition-delay: 0.2s;">
+                    <div class="service-icon text-4xl text-[#0B3D91] mb-4">
+                        <i class="fas fa-cubes"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">数字沙盘制作</h3>
+                    <p class="text-gray-600 mb-4">通过声、光、电、图像、三维动画以及计算机程控技术与实体模型相融合，让访客如临其境，互动性强，体验更好。</p>
+                    <ul class="text-gray-600 space-y-2">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            互动投影沙盘
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            多媒体数字沙盘
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            电子沙盘控制系统
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- 服务卡片 3 -->
+                <div class="service-card bg-white rounded-lg shadow-md p-6 fade-in" style="transition-delay: 0.4s;">
+                    <div class="service-icon text-4xl text-[#0B3D91] mb-4">
+                        <i class="fas fa-vr-cardboard"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">VR/AR可视化</h3>
+                    <p class="text-gray-600 mb-4">结合虚拟现实和增强现实技术，为客户提供沉浸式的交互体验，让建筑设计方案更加生动直观。</p>
+                    <ul class="text-gray-600 space-y-2">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            VR建筑漫游
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            AR模型交互
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            360°全景展示
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- 服务卡片 4 -->
+                <div class="service-card bg-white rounded-lg shadow-md p-6 fade-in">
+                    <div class="service-icon text-4xl text-[#0B3D91] mb-4">
+                        <i class="fas fa-paint-brush"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">展览展示设计</h3>
+                    <p class="text-gray-600 mb-4">深入调研您的需求输出整体解决方案，运用设计软件等比例绘制并结合多媒体技术进行展现，让您对展馆展厅布局一目了然。</p>
+                    <ul class="text-gray-600 space-y-2">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            企业展厅设计
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            产品展示设计
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            临时展览搭建
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- 服务卡片 5 -->
+                <div class="service-card bg-white rounded-lg shadow-md p-6 fade-in" style="transition-delay: 0.2s;">
+                    <div class="service-icon text-4xl text-[#0B3D91] mb-4">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">数字多媒体制作</h3>
+                    <p class="text-gray-600 mb-4">将图像、文字以及音频、视频等结合在一起，为您提供企业宣传片、三维动画、数字展厅的多媒体设计、制作、拍摄服务。</p>
+                    <ul class="text-gray-600 space-y-2">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            三维动画制作
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            企业宣传片
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            互动多媒体设计
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- 服务卡片 6 -->
+                <div class="service-card bg-white rounded-lg shadow-md p-6 fade-in" style="transition-delay: 0.4s;">
+                    <div class="service-icon text-4xl text-[#0B3D91] mb-4">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">AI智能模型预览</h3>
+                    <p class="text-gray-600 mb-4">利用人工智能技术，将2D图纸自动转换为3D模型预览，客户可实时查看效果，提前感受建筑空间。</p>
+                    <ul class="text-gray-600 space-y-2">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            2D转3D模型
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            智能材质渲染
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            实时交互调整
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 制作流程 -->
+    <section class="section-padding bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">制作流程</h2>
+                <div class="w-24 h-1 bg-[#0B3D91] mx-auto"></div>
+                <p class="mt-6 text-gray-600 max-w-3xl mx-auto">我们拥有标准化的制作流程，确保每一个项目都能高质量、高效率地完成。</p>
+            </div>
+            
+            <div class="relative">
+                <div class="hidden md:block absolute top-1/2 left-0 w-full h-1 bg-gray-200 transform -translate-y-1/2 z-0"></div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10">
+                    <!-- 流程步骤 1 -->
+                    <div class="bg-white rounded-lg shadow-md p-6 text-center fade-in">
+                        <div class="w-16 h-16 bg-[#0B3D91] rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-white text-xl font-bold">1</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">需求沟通</h3>
+                        <p class="text-gray-600">深入了解客户需求，明确项目目标、用途、比例、材料等关键要素，提供专业建议。</p>
+                    </div>
+                    
+                    <!-- 流程步骤 2 -->
+                    <div class="bg-white rounded-lg shadow-md p-6 text-center fade-in" style="transition-delay: 0.2s;">
+                        <div class="w-16 h-16 bg-[#0B3D91] rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-white text-xl font-bold">2</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">设计方案</h3>
+                        <p class="text-gray-600">根据需求制定详细的制作方案，包括设计图纸、材料清单、工艺流程和时间规划。</p>
+                    </div>
+                    
+                    <!-- 流程步骤 3 -->
+                    <div class="bg-white rounded-lg shadow-md p-6 text-center fade-in" style="transition-delay: 0.4s;">
+                        <div class="w-16 h-16 bg-[#0B3D91] rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-white text-xl font-bold">3</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">模型制作</h3>
+                        <p class="text-gray-600">按照设计方案进行精细制作，包括材料切割、雕刻、组装、上色等多个环节，确保精度和质量。</p>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8 relative z-10">
+                    <!-- 流程步骤 4 -->
+                    <div class="bg-white rounded-lg shadow-md p-6 text-center fade-in">
+                        <div class="w-16 h-16 bg-[#0B3D91] rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-white text-xl font-bold">4</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">质量检验</h3>
+                        <p class="text-gray-600">对制作完成的模型进行全面检查，确保尺寸精度、外观效果和结构稳定性符合要求。</p>
+                    </div>
+                    
+                    <!-- 流程步骤 5 -->
+                    <div class="bg-white rounded-lg shadow-md p-6 text-center fade-in" style="transition-delay: 0.2s;">
+                        <div class="w-16 h-16 bg-[#0B3D91] rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-white text-xl font-bold">5</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">交付安装</h3>
+                        <p class="text-gray-600">将完成的模型安全送达客户指定地点，并提供专业的安装调试服务，确保展示效果最佳。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-12 text-center">
+                <img src="https://p3-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/369bd1871e574500a30bbd9e5250e795~tplv-a9rns2rl98-image.image?rcl=202511271619564C8998130AF90513A3C5&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1766823636&x-signature=7a1TviVpm7XkmJSDeNmEhMmN9oM%3D" alt="制作流程" class="rounded-lg shadow-xl max-w-full h-auto mx-auto fade-in">
+            </div>
+        </div>
+    </section>
+
+    <!-- 项目案例 -->
+    <section id="projects" class="section-padding bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">项目案例</h2>
+                <div class="w-24 h-1 bg-[#0B3D91] mx-auto"></div>
+                <p class="mt-6 text-gray-600 max-w-3xl mx-auto">我们已成功完成众多建筑模型项目，涵盖房地产、城市规划、商业综合体等多个领域。</p>
+            </div>
+            
+            <!-- 案例筛选 -->
+            <div class="flex flex-wrap justify-center gap-4 mb-8">
+                <button class="project-filter-btn active bg-[#0B3D91] text-white px-4 py-2 rounded-md hover:bg-opacity-90 transition-colors" data-filter="all">全部案例</button>
+                <button class="project-filter-btn bg-white text-gray-800 px-4 py-2 rounded-md hover:bg-gray-100 transition-colors" data-filter="real-estate">房地产模型</button>
+                <button class="project-filter-btn bg-white text-gray-800 px-4 py-2 rounded-md hover:bg-gray-100 transition-colors" data-filter="urban-planning">城市规划</button>
+                <button class="project-filter-btn bg-white text-gray-800 px-4 py-2 rounded-md hover:bg-gray-100 transition-colors" data-filter="commercial">商业模型</button>
+            </div>
+            
+            <!-- 案例展示 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- 案例 1 -->
+                <div class="project-card rounded-lg overflow-hidden shadow-md fade-in" data-category="real-estate">
+                    <img src="https://p26-doubao-search-sign.byteimg.com/tos-cn-i-be4g95zd3a/984521489271226453~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1779783609&x-signature=DD5vezM2%2F3qTcMjmxDM8Ze8enLk%3D" alt="房地产模型" class="w-full h-64 object-cover">
+                    <div class="project-overlay text-white p-6">
+                        <h3 class="text-xl font-bold mb-2">滨海新城售楼模型</h3>
+                        <p class="mb-4">1:100比例，采用亚克力、ABS材料制作，配备灯光系统，展示楼盘整体规划和建筑细节。</p>
+                        <a href="#" class="bg-white text-[#0B3D91] px-4 py-2 rounded-md hover:bg-opacity-90 transition-colors">查看详情</a>
+                    </div>
+                    <div class="p-4 bg-white">
+                        <h3 class="text-lg font-bold mb-1">滨海新城售楼模型</h3>
+                        <p class="text-gray-600 text-sm">房地产展示 | 1:100比例</p>
+                    </div>
+                </div>
+                
+                <!-- 案例 2 -->
+                <div class="project-card rounded-lg overflow-hidden shadow-md fade-in" style="transition-delay: 0.2s;" data-category="urban-planning">
+                    <img src="https://p11-doubao-search-sign.byteimg.com/tos-cn-i-be4g95zd3a/1940164769193263110~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1779783609&x-signature=DFWrem%2F2R7nfHgTyuCz48h2B9ec%3D" alt="城市规划模型" class="w-full h-64 object-cover">
+                    <div class="project-overlay text-white p-6">
+                        <h3 class="text-xl font-bold mb-2">智慧城市规划模型</h3>
+                        <p class="mb-4">1:5000比例，结合数字沙盘技术，展示城市交通、绿化、水系等规划布局，支持互动演示。</p>
+                        <a href="#" class="bg-white text-[#0B3D91] px-4 py-2 rounded-md hover:bg-opacity-90 transition-colors">查看详情</a>
+                    </div>
+                    <div class="p-4 bg-white">
+                        <h3 class="text-lg font-bold mb-1">智慧城市规划模型</h3>
+                        <p class="text-gray-600 text-sm">城市规划 | 1:5000比例</p>
+                    </div>
+                </div>
+                
+                <!-- 案例 3 -->
+                <div class="project-card rounded-lg overflow-hidden shadow-md fade-in" style="transition-delay: 0.4s;" data-category="commercial">
+                    <img src="https://p11-doubao-search-sign.byteimg.com/labis/b669bb450dc520322e5a091a258e156c~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1779783609&x-signature=u79P%2FNwFL9D%2Byc%2Fek6nliJOO2rg%3D" alt="商业模型" class="w-full h-64 object-cover">
+                    <div class="project-overlay text-white p-6">
+                        <h3 class="text-xl font-bold mb-2">中央商务区模型</h3>
+                        <p class="mb-4">1:200比例，精细制作商业综合体、写字楼、酒店等建筑，展示城市商业中心的繁华景象。</p>
+                        <a href="#" class="bg-white text-[#0B3D91] px-4 py-2 rounded-md hover:bg-opacity-90 transition-colors">查看详情</a>
+                    </div>
+                    <div class="p-4 bg-white">
+                        <h3 class="text-lg font-bold mb-1">中央商务区模型</h3>
+                        <p class="text-gray-600 text-sm">商业展示 | 1:200比例</p>
+                    </div>
+                </div>
+                
+                <!-- 案例 4 -->
+                <div class="project-card rounded-lg overflow-hidden shadow-md fade-in" data-category="real-estate">
+                    <img src="https://p3-doubao-search-sign.byteimg.com/ecom-shop-material/jpeg_m_819b50491075b28ceaf78e1987698d8c_sx_62189_www1200-1200~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1779783609&x-signature=CH7iWktHS0srbtaB6ymvJGwDACE%3D" alt="房地产模型" class="w-full h-64 object-cover">
+                    <div class="project-overlay text-white p-6">
+                        <h3 class="text-xl font-bold mb-2">山水别墅区模型</h3>
+                        <p class="mb-4">1:150比例，结合自然地形，精细制作别墅群和园林景观，展现高端住宅的优雅环境。</p>
+                        <a href="#" class="bg-white text-[#0B3D91] px-4 py-2 rounded-md hover:bg-opacity-90 transition-colors">查看详情</a>
+                    </div>
+                    <div class="p-4 bg-white">
+                        <h3 class="text-lg font-bold mb-1">山水别墅区模型</h3>
+                        <p class="text-gray-600 text-sm">房地产展示 | 1:150比例</p>
+                    </div>
+                </div>
+                
+                <!-- 案例 5 -->
+                <div class="project-card rounded-lg overflow-hidden shadow-md fade-in" style="transition-delay: 0.2s;" data-category="urban-planning">
+                    <img src="https://p11-doubao-search-sign.byteimg.com/labis/fe90c46b5b37f2839a9fb58e8552efd9~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1779783609&x-signature=4m4uKxpgQlRuzHWRr6uy07KulqU%3D" alt="城市规划模型" class="w-full h-64 object-cover">
+                    <div class="project-overlay text-white p-6">
+                        <h3 class="text-xl font-bold mb-2">生态新城规划模型</h3>
+                        <p class="mb-4">1:2000比例，突出生态环保理念，展示城市绿地系统、生态水系和低碳交通网络。</p>
+                        <a href="#" class="bg-white text-[#0B3D91] px-4 py-2 rounded-md hover:bg-opacity-90 transition-colors">查看详情</a>
+                    </div>
+                    <div class="p-4 bg-white">
+                        <h3 class="text-lg font-bold mb-1">生态新城规划模型</h3>
+                        <p class="text-gray-600 text-sm">城市规划 | 1:2000比例</p>
+                    </div>
+                </div>
+                
+                <!-- 案例 6 -->
+                <div class="project-card rounded-lg overflow-hidden shadow-md fade-in" style="transition-delay: 0.4s;" data-category="commercial">
+                    <img src="https://p3-doubao-search-sign.byteimg.com/ecom-shop-material/jpeg_m_75fce2c4b6c2a0d1eb979a08839fe3da_sx_63697_www1200-1200~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1779783609&x-signature=%2F3VDde9bhJ27aqvTJgqbBcekWbk%3D" alt="商业模型" class="w-full h-64 object-cover">
+                    <div class="project-overlay text-white p-6">
+                        <h3 class="text-xl font-bold mb-2">文化创意产业园模型</h3>
+                        <p class="mb-4">1:100比例，融合现代与传统建筑风格，展示文化创意产业的活力与创意氛围。</p>
+                        <a href="#" class="bg-white text-[#0B3D91] px-4 py-2 rounded-md hover:bg-opacity-90 transition-colors">查看详情</a>
+                    </div>
+                    <div class="p-4 bg-white">
+                        <h3 class="text-lg font-bold mb-1">文化创意产业园模型</h3>
+                        <p class="text-gray-600 text-sm">商业展示 | 1:100比例</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-10 text-center">
+                <a href="#" class="inline-block bg-[#0B3D91] text-white px-6 py-3 rounded-md hover:bg-opacity-90 transition-colors">查看更多案例</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3D模型预览 -->
+    <section class="section-padding bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">3D模型预览</h2>
+                <div class="w-24 h-1 bg-[#0B3D91] mx-auto"></div>
+                <p class="mt-6 text-gray-600 max-w-3xl mx-auto">通过交互式3D模型预览，全方位了解我们的制作工艺和细节处理。</p>
+            </div>
+            
+            <div class="model-viewer fade-in">
+                <div id="model-container"></div>
+                <div class="model-controls">
+                    <button class="model-control-btn" id="rotate-left">
+                        <i class="fas fa-undo"></i>
+                    </button>
+                    <button class="model-control-btn" id="rotate-right">
+                        <i class="fas fa-redo"></i>
+                    </button>
+                    <button class="model-control-btn" id="zoom-in">
+                        <i class="fas fa-search-plus"></i>
+                    </button>
+                    <button class="model-control-btn" id="zoom-out">
+                        <i class="fas fa-search-minus"></i>
+                    </button>
+                    <button class="model-control-btn" id="reset-view">
+                        <i class="fas fa-home"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-gray-50 p-4 rounded-lg text-center cursor-pointer hover:bg-gray-100 transition-colors model-thumbnail active" data-model="building1">
+                    <img src="https://p11-doubao-search-sign.byteimg.com/labis/b82e89020b16ad79c277bd237e631adc~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1779783609&x-signature=CgQFsYVmWpJxx2QS65chVdw6JLU%3D" alt="建筑模型1" class="w-full h-40 object-cover rounded-md mb-2">
+                    <h4 class="font-medium">现代公寓楼</h4>
+                </div>
+                
+                <div class="bg-gray-50 p-4 rounded-lg text-center cursor-pointer hover:bg-gray-100 transition-colors model-thumbnail" data-model="building2">
+                    <img src="https://p11-doubao-search-sign.byteimg.com/labis/310bf79121394c984f8dbf785df7fc28~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1779783609&x-signature=F8Pf%2F%2FjaDxMxPh1o%2Flb63GEE%2Fms%3D" alt="建筑模型2" class="w-full h-40 object-cover rounded-md mb-2">
+                    <h4 class="font-medium">传统建筑</h4>
+                </div>
+                
+                <div class="bg-gray-50 p-4 rounded-lg text-center cursor-pointer hover:bg-gray-100 transition-colors model-thumbnail" data-model="building3">
+                    <img src="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/b90a5b8636d24b50bf31fdba171ae5ba~tplv-a9rns2rl98-image.image?rcl=202511271619564C8998130AF90513A3C5&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1766823628&x-signature=ogct4SUbNUu99PTT0LKJPvx7R0k%3D" alt="建筑模型3" class="w-full h-40 object-cover rounded-md mb-2">
+                    <h4 class="font-medium">商业综合体</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 团队介绍 -->
+    <section id="team" class="section-padding bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">专业团队</h2>
+                <div class="w-24 h-1 bg-[#0B3D91] mx-auto"></div>
+                <p class="mt-6 text-gray-600 max-w-3xl mx-auto">我们拥有一支经验丰富、技术精湛的专业团队，致力于为客户提供最优质的服务。</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- 团队成员 1 -->
+                <div class="team-card rounded-lg overflow-hidden shadow-md fade-in">
+                    <img src="https://p26-doubao-search-sign.byteimg.com/tos-cn-i-be4g95zd3a/1012928171046600726~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1779783609&x-signature=%2F5p6yyjqbgmX6IQF%2BeeZ0AuD%2FuI%3D" alt="张总监" class="w-full h-80 object-cover">
+                    <div class="p-4 bg-white">
+                        <h3 class="text-xl font-bold mb-1">张明</h3>
+                        <p class="text-[#0B3D91] mb-2">创意总监</p>
+                        <p class="text-gray-600 text-sm">15年建筑模型设计经验，曾主导多个大型项目，擅长将创新理念融入模型制作。</p>
+                    </div>
+                    <div class="team-overlay text-white">
+                        <div class="flex justify-center space-x-3">
+                            <a href="#" class="text-white hover:text-gray-300">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                            <a href="#" class="text-white hover:text-gray-300">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" class="text-white hover:text-gray-300">
+                                <i class="fas fa-envelope"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 团队成员 2 -->
+                <div class="team-card rounded-lg overflow-hidden shadow-md fade-in" style="transition-delay: 0.2s;">
+                    <img src="https://p26-doubao-search-sign.byteimg.com/tos-cn-i-be4g95zd3a/2262476200494366735~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1779783609&x-signature=bXW64Lguqi404rkKEoWlNkPStPQ%3D" alt="李经理" class="w-full h-80 object-cover">
+                    <div class="p-4 bg-white">
+                        <h3 class="text-xl font-bold mb-1">李强</h3>
+                        <p class="text-[#0B3D91] mb-2">技术经理</p>
+                        <p class="text-gray-600 text-sm">12年模型制作经验，精通各类模型材料和制作工艺，负责技术创新和质量控制。</p>
+                    </div>
+                    <div class="team-overlay text-white">
+                        <div class="flex justify-center space-x-3">
+                            <a href="#" class="text-white hover:text-gray-300">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                            <a href="#" class="text-white hover:text-gray-300">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" class="text-white hover:text-gray-300">
+                                <i class="fas fa-envelope"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 团队成员 3 -->
+                <div class="team-card rounded-lg overflow-hidden shadow-md fade-in" style="transition-delay: 0.4s;">
+                    <img src="https://p26-doubao-search-sign.byteimg.com/tos-cn-i-be4g95zd3a/1963738324346732548~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1779783609&x-signature=3%2BDJYNJbrHdakHnRu7KP6NyR85E%3D" alt="王设计师" class="w-full h-80 object-cover">
+                    <div class="p-4 bg-white">
+                        <h3 class="text-xl font-bold mb-1">王芳</h3>
+                        <p class="text-[#0B3D91] mb-2">高级设计师</p>
+                        <p class="text-gray-600 text-sm">8年建筑设计经验，擅长将2D图纸转化为3D模型，注重细节表现和视觉效果。</p>
+                    </div>
+                    <div class="team-overlay text-white">
+                        <div class="flex justify-center space-x-3">
+                            <a href="#" class="text-white hover:text-gray-300">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                            <a href="#" class="text-white hover:text-gray-300">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" class="text-white hover:text-gray-300">
+                                <i class="fas fa-envelope"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 团队成员 4 -->
+                <div class="team-card rounded-lg overflow-hidden shadow-md fade-in" style="transition-delay: 0.6s;">
+                    <img src="https://p11-doubao-search-sign.byteimg.com/tos-cn-i-be4g95zd3a/1021884827124891648~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1779783609&x-signature=%2BvArwF2m7XwCpNMMz5eM137Q2Qk%3D" alt="赵工程师" class="w-full h-80 object-cover">
+                    <div class="p-4 bg-white">
+                        <h3 class="text-xl font-bold mb-1">赵伟</h3>
+                        <p class="text-[#0B3D91] mb-2">技术工程师</p>
+                        <p class="text-gray-600 text-sm">6年数字技术经验，专注于VR/AR技术应用和数字沙盘开发，推动传统模型与数字技术的融合。</p>
+                    </div>
+                    <div class="team-overlay text-white">
+                        <div class="flex justify-center space-x-3">
+                            <a href="#" class="text-white hover:text-gray-300">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                            <a href="#" class="text-white hover:text-gray-300">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" class="text-white hover:text-gray-300">
+                                <i class="fas fa-envelope"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 客户评价 -->
+    <section class="section-padding bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">客户评价</h2>
+                <div class="w-24 h-1 bg-[#0B3D91] mx-auto"></div>
+                <p class="mt-6 text-gray-600 max-w-3xl mx-auto">听听我们的客户怎么说，他们的满意是对我们最大的肯定。</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- 评价 1 -->
+                <div class="testimonial-card bg-gray-50 p-6 rounded-lg shadow-md fade-in">
+                    <div class="flex items-center mb-4">
+                        <div class="text-yellow-400 mr-2">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span class="text-gray-600">5.0</span>
+                    </div>
+                    <p class="text-gray-700 mb-6">"筑梦空间制作的建筑模型非常精美，细节处理到位，完美展现了我们的设计理念。他们的团队专业、高效，是值得信赖的合作伙伴。"</p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-gray-300 rounded-full mr-4"></div>
+                        <div>
+                            <h4 class="font-bold">陈总监</h4>
+                            <p class="text-gray-600 text-sm">某知名建筑设计事务所</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 评价 2 -->
+                <div class="testimonial-card bg-gray-50 p-6 rounded-lg shadow-md fade-in" style="transition-delay: 0.2s;">
+                    <div class="flex items-center mb-4">
+                        <div class="text-yellow-400 mr-2">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span class="text-gray-600">5.0</span>
+                    </div>
+                    <p class="text-gray-700 mb-6">"我们与筑梦空间合作多年，他们制作的售楼模型帮助我们提升了销售效果，客户反馈非常好。他们的服务周到，交付及时，值得推荐。"</p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-gray-300 rounded-full mr-4"></div>
+                        <div>
+                            <h4 class="font-bold">林总</h4>
+                            <p class="text-gray-600 text-sm">某大型房地产开发公司</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 评价 3 -->
+                <div class="testimonial-card bg-gray-50 p-6 rounded-lg shadow-md fade-in" style="transition-delay: 0.4s;">
+                    <div class="flex items-center mb-4">
+                        <div class="text-yellow-400 mr-2">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <span class="text-gray-600">4.5</span>
+                    </div>
+                    <p class="text-gray-700 mb-6">"筑梦空间的数字沙盘技术非常先进，为我们的城市规划展示提供了很大帮助。他们的团队技术实力强，能够快速响应我们的需求变更。"</p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-gray-300 rounded-full mr-4"></div>
+                        <div>
+                            <h4 class="font-bold">王主任</h4>
+                            <p class="text-gray-600 text-sm">某城市规划设计院</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 资料上传 -->
+    <section id="upload" class="section-padding bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">资料上传</h2>
+                <div class="w-24 h-1 bg-[#0B3D91] mx-auto"></div>
+                <p class="mt-6 text-gray-600 max-w-3xl mx-auto">上传您的项目资料，我们将为您提供专业的模型制作解决方案。</p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="bg-white rounded-lg shadow-md p-6 fade-in">
+                    <h3 class="text-xl font-bold mb-4">项目需求信息</h3>
+                    <form id="project-form">
+                        <div class="mb-4">
+                            <label for="project-name" class="block text-gray-700 mb-2">项目名称</label>
+                            <input type="text" id="project-name" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0B3D91]" placeholder="请输入项目名称">
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="project-type" class="block text-gray-700 mb-2">项目类型</label>
+                            <select id="project-type" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0B3D91]">
+                                <option value="">请选择项目类型</option>
+                                <option value="real-estate">房地产模型</option>
+                                <option value="urban-planning">城市规划模型</option>
+                                <option value="commercial">商业模型</option>
+                                <option value="exhibition">展览展示模型</option>
+                                <option value="other">其他类型</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="model-scale" class="block text-gray-700 mb-2">模型比例</label>
+                            <select id="model-scale" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0B3D91]">
+                                <option value="">请选择模型比例</option>
+                                <option value="1:100">1:100</option>
+                                <option value="1:200">1:200</option>
+                                <option value="1:500">1:500</option>
+                                <option value="1:1000">1:1000</option>
+                                <option value="custom">自定义比例</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="delivery-date" class="block text-gray-700 mb-2">期望交付日期</label>
+                            <input type="date" id="delivery-date" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0B3D91]">
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="project-description" class="block text-gray-700 mb-2">项目描述</label>
+                            <textarea id="project-description" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0B3D91]" placeholder="请详细描述您的项目需求、特殊要求等"></textarea>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="contact-name" class="block text-gray-700 mb-2">联系人姓名</label>
+                            <input type="text" id="contact-name" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0B3D91]" placeholder="请输入您的姓名">
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="contact-phone" class="block text-gray-700 mb-2">联系电话</label>
+                            <input type="tel" id="contact-phone" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0B3D91]" placeholder="请输入您的联系电话">
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="contact-email" class="block text-gray-700 mb-2">电子邮箱</label>
+                            <input type="email" id="contact-email" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0B3D91]" placeholder="请输入您的电子邮箱">
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-md p-6 fade-in" style="transition-delay: 0.2s;">
+                    <h3 class="text-xl font-bold mb-4">文件上传</h3>
+                    <p class="text-gray-600 mb-6">支持上传CAD图纸、效果图、参考图片等文件，单个文件大小不超过50MB。</p>
+                    
+                    <div class="upload-area mb-6" id="upload-area">
+                        <div class="upload-icon mb-4">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </div>
+                        <h4 class="text-lg font-medium mb-2">点击或拖拽文件到此处上传</h4>
+                        <p class="text-gray-500 text-sm">支持 .dwg, .dxf, .jpg, .png, .pdf 等格式</p>
+                        <input type="file" id="file-input" class="hidden" multiple accept=".dwg,.dxf,.jpg,.png,.pdf,.3ds,.max,.skp">
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-medium mb-3">已上传文件</h4>
+                        <div id="file-list" class="space-y-3">
+                            <!-- 文件列表将在这里动态生成 -->
+                            <div class="file-item flex items-center justify-between p-3 bg-gray-50 rounded-md">
+                                <div class="flex items-center">
+                                    <i class="fas fa-file-pdf text-red-500 mr-3"></i>
+                                    <div>
+                                        <p class="font-medium">项目方案.pdf</p>
+                                        <p class="text-gray-500 text-sm">2.4 MB</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="file-upload-progress mr-3">
+                                        <div class="file-upload-progress-bar" style="width: 100%;"></div>
+                                    </div>
+                                    <i class="fas fa-check-circle text-green-500"></i>
+                                </div>
+                            </div>
+                            
+                            <div class="file-item flex items-center justify-between p-3 bg-gray-50 rounded-md">
+                                <div class="flex items-center">
+                                    <i class="fas fa-file-image text-blue-500 mr-3"></i>
+                                    <div>
+                                        <p class="font-medium">外观效果图.jpg</p>
+                                        <p class="text-gray-500 text-sm">1.8 MB</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="file-upload-progress mr-3">
+                                        <div class="file-upload-progress-bar" style="width: 100%;"></div>
+                                    </div>
+                                    <i class="fas fa-check-circle text-green-500"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center">
+                        <button id="submit-project" class="bg-[#0B3D91] text-white px-8 py-3 rounded-md hover:bg-opacity-90 transition-colors">提交项目需求</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 项目进度追踪 -->
+    <section class="section-padding bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">项目进度追踪</h2>
+                <div class="w-24 h-1 bg-[#0B3D91] mx-auto"></div>
+                <p class="mt-6 text-gray-600 max-w-3xl mx-auto">实时查看您的项目进度，随时了解模型制作的最新状态。</p>
+            </div>
+            
+            <div class="bg-gray-50 p-6 rounded-lg shadow-md mb-8 fade-in">
+                <div class="flex flex-wrap justify-between items-center mb-6">
+                    <div>
+                        <h3 class="text-xl font-bold">滨海新城售楼模型</h3>
+                        <p class="text-gray-600">项目编号：ZM20230512</p>
+                    </div>
+                    <div class="mt-4 md:mt-0">
+                        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">制作中</span>
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <div class="flex justify-between mb-1">
+                        <span class="font-medium">总体进度</span>
+                        <span>65%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-bar-fill" style="width: 0%;" data-width="65%"></div>
+                    </div>
+                </div>
+                
+                <div class="project-timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="flex justify-between items-center mb-2">
+                                <h4 class="font-bold">需求确认</h4>
+                                <span class="text-gray-500 text-sm">2023-05-12</span>
+                            </div>
+                            <p class="text-gray-600">已确认项目需求和设计方案，开始准备材料。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="flex justify-between items-center mb-2">
+                                <h4 class="font-bold">材料采购</h4>
+                                <span class="text-gray-500 text-sm">2023-05-15</span>
+                            </div>
+                            <p class="text-gray-600">已完成所有材料采购，包括亚克力板、ABS材料等。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="flex justify-between items-center mb-2">
+                                <h4 class="font-bold">模型制作</h4>
+                                <span class="text-gray-500 text-sm">2023-05-20</span>
+                            </div>
+                            <p class="text-gray-600">正在进行模型主体结构制作，预计3天内完成。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="flex justify-between items-center mb-2">
+                                <h4 class="font-bold">细节处理</h4>
+                                <span class="text-gray-500 text-sm">预计 2023-05-28</span>
+                            </div>
+                            <p class="text-gray-600">等待主体结构完成后进行细节处理和上色。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="flex justify-between items-center mb-2">
+                                <h4 class="font-bold">质量检验</h4>
+                                <span class="text-gray-500 text-sm">预计 2023-06-02</span>
+                            </div>
+                            <p class="text-gray-600">完成后将进行全面质量检验，确保符合要求。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="flex justify-between items-center mb-2">
+                                <h4 class="font-bold">交付安装</h4>
+                                <span class="text-gray-500 text-sm">预计 2023-06-05</span>
+                            </div>
+                            <p class="text-gray-600">检验合格后将安排交付和现场安装调试。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center">
+                <a href="#" class="inline-block bg-[#0B3D91] text-white px-6 py-3 rounded-md hover:bg-opacity-90 transition-colors">查询我的项目</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI智能模型预览 -->
+    <section id="ai-preview" class="section-padding bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">AI智能模型预览</h2>
+                <div class="w-24 h-1 bg-[#0B3D91] mx-auto"></div>
+                <p class="mt-6 text-gray-600 max-w-3xl mx-auto">上传2D图纸，AI技术将自动为您生成3D模型预览，提前感受建筑空间效果。</p>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-md p-6 mb-8 fade-in">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-xl font-bold mb-4">上传2D图纸</h3>
+                        <div class="upload-area mb-6" id="ai-upload-area">
+                            <div class="upload-icon mb-4">
+                                <i class="fas fa-file-image"></i>
+                            </div>
+                            <h4 class="text-lg font-medium mb-2">点击或拖拽2D图纸到此处</h4>
+                            <p class="text-gray-500 text-sm">支持 .jpg, .png, .pdf, .dwg 等格式</p>
+                            <input type="file" id="ai-file-input" class="hidden" accept=".jpg,.png,.pdf,.dwg">
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-gray-700 mb-2">选择转换风格</label>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                                <div class="style-option bg-gray-100 p-3 rounded-md text-center cursor-pointer hover:bg-gray-200 transition-colors active">
+                                    <img src="https://p11-doubao-search-sign.byteimg.com/labis/b669bb450dc520322e5a091a258e156c~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1779783609&x-signature=u79P%2FNwFL9D%2Byc%2Fek6nliJOO2rg%3D" alt="现代风格" class="w-full h-24 object-cover rounded-md mb-2">
+                                    <span class="text-sm">现代风格</span>
+                                </div>
+                                
+                                <div class="style-option bg-gray-100 p-3 rounded-md text-center cursor-pointer hover:bg-gray-200 transition-colors">
+                                    <img src="https://p11-doubao-search-sign.byteimg.com/labis/310bf79121394c984f8dbf785df7fc28~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1779783609&x-signature=F8Pf%2F%2FjaDxMxPh1o%2Flb63GEE%2Fms%3D" alt="传统风格" class="w-full h-24 object-cover rounded-md mb-2">
+                                    <span class="text-sm">传统风格</span>
+                                </div>
+                                
+                                <div class="style-option bg-gray-100 p-3 rounded-md text-center cursor-pointer hover:bg-gray-200 transition-colors">
+                                    <img src="https://p11-doubao-search-sign.byteimg.com/labis/fe90c46b5b37f2839a9fb58e8552efd9~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1779783609&x-signature=4m4uKxpgQlRuzHWRr6uy07KulqU%3D" alt="简约风格" class="w-full h-24 object-cover rounded-md mb-2">
+                                    <span class="text-sm">简约风格</span>
+                                </div>
+                                
+                                <div class="style-option bg-gray-100 p-3 rounded-md text-center cursor-pointer hover:bg-gray-200 transition-colors">
+                                    <img src="https://p11-doubao-search-sign.byteimg.com/tos-cn-i-be4g95zd3a/1940164769193263110~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1779783609&x-signature=DFWrem%2F2R7nfHgTyuCz48h2B9ec%3D" alt="中式风格" class="w-full h-24 object-cover rounded-md mb-2">
+                                    <span class="text-sm">中式风格</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="text-center">
+                            <button id="generate-model" class="bg-[#0B3D91] text-white px-8 py-3 rounded-md hover:bg-opacity-90 transition-colors">生成3D预览</button>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-xl font-bold mb-4">3D模型预览</h3>
+                        <div class="model-viewer mb-6">
+                            <div id="ai-model-container"></div>
+                            <div class="model-controls">
+                                <button class="model-control-btn" id="ai-rotate-left">
+                                    <i class="fas fa-undo"></i>
+                                </button>
+                                <button class="model-control-btn" id="ai-rotate-right">
+                                    <i class="fas fa-redo"></i>
+                                </button>
+                                <button class="model-control-btn" id="ai-zoom-in">
+                                    <i class="fas fa-search-plus"></i>
+                                </button>
+                                <button class="model-control-btn" id="ai-zoom-out">
+                                    <i class="fas fa-search-minus"></i>
+                                </button>
+                                <button class="model-control-btn" id="ai-reset-view">
+                                    <i class="fas fa-home"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-between">
+                            <button class="bg-white border border-[#0B3D91] text-[#0B3D91] px-4 py-2 rounded-md hover:bg-[#0B3D91] hover:text-white transition-colors">
+                                <i class="fas fa-download mr-2"></i>下载模型
+                            </button>
+                            
+                            <button class="bg-white border border-[#0B3D91] text-[#0B3D91] px-4 py-2 rounded-md hover:bg-[#0B3D91] hover:text-white transition-colors">
+                                <i class="fas fa-share-alt mr-2"></i>分享
+                            </button>
+                            
+                            <button class="bg-[#0B3D91] text-white px-4 py-2 rounded-md hover:bg-opacity-90 transition-colors">
+                                <i class="fas fa-check mr-2"></i>确认制作
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="ai-preview-container fade-in" style="transition-delay: 0.2s;">
+                <h3 class="text-xl font-bold mb-6">AI智能模型预览功能特点</h3>
+                
+                <div class="ai-features">
+                    <div class="ai-feature">
+                        <div class="ai-feature-icon">
+                            <i class="fas fa-magic"></i>
+                        </div>
+                        <h4 class="font-bold mb-2">智能识别</h4>
+                        <p class="text-gray-600">AI自动识别2D图纸中的墙体、门窗、楼梯等元素，精准转换为3D模型。</p>
+                    </div>
+                    
+                    <div class="ai-feature">
+                        <div class="ai-feature-icon">
+                            <i class="fas fa-palette"></i>
+                        </div>
+                        <h4 class="font-bold mb-2">材质渲染</h4>
+                        <p class="text-gray-600">自动匹配适合的材质和纹理，提供真实的视觉效果预览。</p>
+                    </div>
+                    
+                    <div class="ai-feature">
+                        <div class="ai-feature-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <h4 class="font-bold mb-2">快速生成</h4>
+                        <p class="text-gray-600">几分钟内即可完成从2D到3D的转换，大大缩短前期设计周期。</p>
+                    </div>
+                    
+                    <div class="ai-feature">
+                        <div class="ai-feature-icon">
+                            <i class="fas fa-edit"></i>
+                        </div>
+                        <h4 class="font-bold mb-2">实时调整</h4>
+                        <p class="text-gray-600">支持在线调整模型参数，如颜色、材质、光照等，实时查看效果变化。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 联系我们 -->
+    <section id="contact" class="section-padding bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">联系我们</h2>
+                <div class="w-24 h-1 bg-[#0B3D91] mx-auto"></div>
+                <p class="mt-6 text-gray-600 max-w-3xl mx-auto">无论您有任何问题或需求，我们都将竭诚为您服务。</p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="fade-in">
+                    <form class="bg-gray-50 p-6 rounded-lg shadow-md">
+                        <h3 class="text-xl font-bold mb-4">发送消息</h3>
+                        
+                        <div class="mb-4">
+                            <label for="name" class="block text-gray-700 mb-2">姓名</label>
+                            <input type="text" id="name" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0B3D91]" placeholder="请输入您的姓名">
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="email" class="block text-gray-700 mb-2">电子邮箱</label>
+                            <input type="email" id="email" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0B3D91]" placeholder="请输入您的电子邮箱">
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="phone" class="block text-gray-700 mb-2">联系电话</label>
+                            <input type="tel" id="phone" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0B3D91]" placeholder="请输入您的联系电话">
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="message" class="block text-gray-700 mb-2">留言内容</label>
+                            <textarea id="message" rows="5" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0B3D91]" placeholder="请输入您的留言内容"></textarea>
+                        </div>
+                        
+                        <button type="submit" class="w-full bg-[#0B3D91] text-white px-6 py-3 rounded-md hover:bg-opacity-90 transition-colors">发送消息</button>
+                    </form>
+                </div>
+                
+                <div class="fade-in" style="transition-delay: 0.2s;">
+                    <div class="bg-gray-50 p-6 rounded-lg shadow-md mb-6">
+                        <h3 class="text-xl font-bold mb-6">联系方式</h3>
+                        
+                        <div class="contact-info-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-map-marker-alt text-[#0B3D91]"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold">公司地址</h4>
+                                <p class="text-gray-600">北京市朝阳区建国路88号SOHO现代城5号楼25层</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-info-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone-alt text-[#0B3D91]"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold">联系电话</h4>
+                                <p class="text-gray-600">010-12345678</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-info-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope text-[#0B3D91]"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold">电子邮箱</h4>
+                                <p class="text-gray-600">info@zhumengspace.com</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-info-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-clock text-[#0B3D91]"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold">工作时间</h4>
+                                <p class="text-gray-600">周一至周五: 9:00 - 18:00</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-50 p-6 rounded-lg shadow-md">
+                        <h3 class="text-xl font-bold mb-6">关注我们</h3>
+                        
+                        <div class="flex">
+                            <a href="#" class="social-icon">
+                                <i class="fab fa-weixin text-[#0B3D91]"></i>
+                            </a>
+                            
+                            <a href="#" class="social-icon">
+                                <i class="fab fa-weibo text-[#0B3D91]"></i>
+                            </a>
+                            
+                            <a href="#" class="social-icon">
+                                <i class="fab fa-linkedin text-[#0B3D91]"></i>
+                            </a>
+                            
+                            <a href="#" class="social-icon">
+                                <i class="fab fa-behance text-[#0B3D91]"></i>
+                            </a>
+                            
+                            <a href="#" class="social-icon">
+                                <i class="fab fa-instagram text-[#0B3D91]"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">筑梦空间</h3>
+                    <p class="text-gray-400 mb-4">专业建筑模型制作公司，致力于将设计师的创意转化为精美的实体模型。</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-weixin"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-weibo"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-behance"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-bold mb-4">服务项目</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">建筑模型制作</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">数字沙盘制作</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">VR/AR可视化</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">展览展示设计</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">数字多媒体制作</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-bold mb-4">快速链接</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#home" class="text-gray-400 hover:text-white transition-colors">首页</a></li>
+                        <li><a href="#about" class="text-gray-400 hover:text-white transition-colors">关于我们</a></li>
+                        <li><a href="#services" class="text-gray-400 hover:text-white transition-colors">服务内容</a></li>
+                        <li><a href="#projects" class="text-gray-400 hover:text-white transition-colors">项目案例</a></li>
+                        <li><a href="#team" class="text-gray-400 hover:text-white transition-colors">团队介绍</a></li>
+                        <li><a href="#contact" class="text-gray-400 hover:text-white transition-colors">联系我们</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-bold mb-4">联系方式</h3>
+                    <ul class="space-y-2">
+                        <li class="flex items-center">
+                            <i class="fas fa-map-marker-alt mr-2 text-gray-400"></i>
+                            <span class="text-gray-400">北京市朝阳区建国路88号</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-phone-alt mr-2 text-gray-400"></i>
+                            <span class="text-gray-400">010-12345678</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-envelope mr-2 text-gray-400"></i>
+                            <span class="text-gray-400">info@zhumengspace.com</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+                <p class="text-gray-400">&copy; 2023 筑梦空间建筑模型有限公司. 保留所有权利.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 返回顶部按钮 -->
+    <button id="back-to-top" class="fixed bottom-8 right-8 bg-[#0B3D91] text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg opacity-0 invisible transition-all duration-300">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // 移动端菜单切换
+        document.getElementById('menu-toggle').addEventListener('click', function() {
+            document.getElementById('mobile-menu').classList.toggle('active');
+        });
+        
+        // 滚动动画
+        function handleScrollAnimation() {
+            const elements = document.querySelectorAll('.fade-in');
+            
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                
+                if (elementTop < windowHeight - 100) {
+                    element.classList.add('active');
+                }
+            });
+        }
+        
+        // 返回顶部按钮
+        function handleBackToTop() {
+            const backToTopButton = document.getElementById('back-to-top');
+            
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.remove('opacity-0', 'invisible');
+                backToTopButton.classList.add('opacity-100', 'visible');
+            } else {
+                backToTopButton.classList.remove('opacity-100', 'visible');
+                backToTopButton.classList.add('opacity-0', 'invisible');
+            }
+        }
+        
+        document.getElementById('back-to-top').addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // 项目筛选
+        document.querySelectorAll('.project-filter-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                // 移除所有按钮的active类
+                document.querySelectorAll('.project-filter-btn').forEach(btn => {
+                    btn.classList.remove('active', 'bg-[#0B3D91]', 'text-white');
+                    btn.classList.add('bg-white', 'text-gray-800');
+                });
+                
+                // 添加当前按钮的active类
+                this.classList.add('active', 'bg-[#0B3D91]', 'text-white');
+                this.classList.remove('bg-white', 'text-gray-800');
+                
+                const filter = this.getAttribute('data-filter');
+                
+                // 筛选项目
+                document.querySelectorAll('.project-card').forEach(card => {
+                    if (filter === 'all' || card.getAttribute('data-category') === filter) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+        
+        // 文件上传区域
+        const uploadArea = document.getElementById('upload-area');
+        const fileInput = document.getElementById('file-input');
+        
+        uploadArea.addEventListener('click', function() {
+            fileInput.click();
+        });
+        
+        uploadArea.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            this.classList.add('border-[#0B3D91]', 'bg-[rgba(11,61,145,0.05)]');
+        });
+        
+        uploadArea.addEventListener('dragleave', function() {
+            this.classList.remove('border-[#0B3D91]', 'bg-[rgba(11,61,145,0.05)]');
+        });
+        
+        uploadArea.addEventListener('drop', function(e) {
+            e.preventDefault();
+            this.classList.remove('border-[#0B3D91]', 'bg-[rgba(11,61,145,0.05)]');
+            
+            if (e.dataTransfer.files.length) {
+                fileInput.files = e.dataTransfer.files;
+                handleFiles(e.dataTransfer.files);
+            }
+        });
+        
+        fileInput.addEventListener('change', function() {
+            if (this.files.length) {
+                handleFiles(this.files);
+            }
+        });
+        
+        function handleFiles(files) {
+            const fileList = document.getElementById('file-list');
+            
+            Array.from(files).forEach(file => {
+                const fileItem = document.createElement('div');
+                fileItem.className = 'file-item flex items-center justify-between p-3 bg-gray-50 rounded-md';
+                
+                const fileIcon = file.type.includes('pdf') ? 'fa-file-pdf text-red-500' : 
+                                file.type.includes('image') ? 'fa-file-image text-blue-500' : 
+                                'fa-file-alt text-gray-500';
+                
+                const fileSize = (file.size / (1024 * 1024)).toFixed(2);
+                
+                fileItem.innerHTML = `
+                    <div class="flex items-center">
+                        <i class="fas ${fileIcon} mr-3"></i>
+                        <div>
+                            <p class="font-medium">${file.name}</p>
+                            <p class="text-gray-500 text-sm">${fileSize} MB</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="file-upload-progress mr-3">
+                            <div class="file-upload-progress-bar" style="width: 0%;"></div>
+                        </div>
+                        <i class="fas fa-spinner fa-spin text-gray-500"></i>
+                    </div>
+                `;
+                
+                fileList.appendChild(fileItem);
+                
+                // 模拟上传进度
+                simulateUploadProgress(fileItem.querySelector('.file-upload-progress-bar'), fileItem.querySelector('.fas'));
+            });
+        }
+        
+        function simulateUploadProgress(progressBar, icon) {
+            let width = 0;
+            const interval = setInterval(() => {
+                if (width >= 100) {
+                    clearInterval(interval);
+                    icon.classList.remove('fa-spinner', 'fa-spin', 'text-gray-500');
+                    icon.classList.add('fa-check-circle', 'text-green-500');
+                } else {
+                    width += 5;
+                    progressBar.style.width = width + '%';
+                }
+            }, 100);
+        }
+        
+        // AI上传区域
+        const aiUploadArea = document.getElementById('ai-upload-area');
+        const aiFileInput = document.getElementById('ai-file-input');
+        
+        aiUploadArea.addEventListener('click', function() {
+            aiFileInput.click();
+        });
+        
+        aiUploadArea.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            this.classList.add('border-[#0B3D91]', 'bg-[rgba(11,61,145,0.05)]');
+        });
+        
+        aiUploadArea.addEventListener('dragleave', function() {
+            this.classList.remove('border-[#0B3D91]', 'bg-[rgba(11,61,145,0.05)]');
+        });
+        
+        aiUploadArea.addEventListener('drop', function(e) {
+            e.preventDefault();
+            this.classList.remove('border-[#0B3D91]', 'bg-[rgba(11,61,145,0.05)]');
+            
+            if (e.dataTransfer.files.length) {
+                aiFileInput.files = e.dataTransfer.files;
+                // 处理AI文件上传
+            }
+        });
+        
+        aiFileInput.addEventListener('change', function() {
+            if (this.files.length) {
+                // 处理AI文件上传
+            }
+        });
+        
+        // 风格选择
+        document.querySelectorAll('.style-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.style-option').forEach(opt => {
+                    opt.classList.remove('active', 'ring-2', 'ring-[#0B3D91]');
+                });
+                
+                this.classList.add('active', 'ring-2', 'ring-[#0B3D91]');
+            });
+        });
+        
+        // 生成模型按钮
+        document.getElementById('generate-model').addEventListener('click', function() {
+            // 模拟生成模型
+            alert('模型生成中，请稍候...');
+            setTimeout(() => {
+                alert('模型生成成功！');
+            }, 2000);
+        });
+        
+        // 提交项目按钮
+        document.getElementById('submit-project').addEventListener('click', function() {
+            // 表单验证
+            const projectName = document.getElementById('project-name').value;
+            const projectType = document.getElementById('project-type').value;
+            const modelScale = document.getElementById('model-scale').value;
+            const deliveryDate = document.getElementById('delivery-date').value;
+            const contactName = document.getElementById('contact-name').value;
+            const contactPhone = document.getElementById('contact-phone').value;
+            const contactEmail = document.getElementById('contact-email').value;
+            
+            if (!projectName || !projectType || !modelScale || !deliveryDate || !contactName || !contactPhone || !contactEmail) {
+                alert('请填写完整的项目信息！');
+                return;
+            }
+            
+            // 模拟提交
+            alert('项目需求已提交，我们将尽快与您联系！');
+        });
+        
+        // 初始化Three.js模型
+        function initThreeJsModel() {
+            // 创建场景
+            const scene = new THREE.Scene();
+            scene.background = new THREE.Color(0xf0f0f0);
+            
+            // 创建相机
+            const camera = new THREE.PerspectiveCamera(75, document.getElementById('model-container').offsetWidth / document.getElementById('model-container').offsetHeight, 0.1, 1000);
+            camera.position.z = 5;
+            
+            // 创建渲染器
+            const renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(document.getElementById('model-container').offsetWidth, document.getElementById('model-container').offsetHeight);
+            document.getElementById('model-container').appendChild(renderer.domElement);
+            
+            // 添加灯光
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+            scene.add(ambientLight);
+            
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            directionalLight.position.set(1, 1, 1);
+            scene.add(directionalLight);
+            
+            // 创建一个简单的建筑模型
+            const buildingGeometry = new THREE.BoxGeometry(2, 1.5, 2);
+            const buildingMaterial = new THREE.MeshPhongMaterial({ color: 0x0B3D91 });
+            const building = new THREE.Mesh(buildingGeometry, buildingMaterial);
+            scene.add(building);
+            
+            // 创建窗户
+            const windowGeometry = new THREE.PlaneGeometry(0.3, 0.5);
+            const windowMaterial = new THREE.MeshPhongMaterial({ color: 0x87CEEB, transparent: true, opacity: 0.7 });
+            
+            // 添加正面窗户
+            for (let i = -0.7; i <= 0.7; i += 0.7) {
+                for (let j = -0.4; j <= 0.4; j += 0.4) {
+                    const window = new THREE.Mesh(windowGeometry, windowMaterial);
+                    window.position.set(i, j, 1.01);
+                    scene.add(window);
+                }
+            }
+            
+            // 添加背面窗户
+            for (let i = -0.7; i <= 0.7; i += 0.7) {
+                for (let j = -0.4; j <= 0.4; j += 0.4) {
+                    const window = new THREE.Mesh(windowGeometry, windowMaterial);
+                    window.position.set(i, j, -1.01);
+                    scene.add(window);
+                }
+            }
+            
+            // 添加侧面窗户
+            for (let i = -0.7; i <= 0.7; i += 0.7) {
+                for (let j = -0.4; j <= 0.4; j += 0.4) {
+                    const window = new THREE.Mesh(windowGeometry, windowMaterial);
+                    window.rotation.y = Math.PI / 2;
+                    window.position.set(1.01, j, i);
+                    scene.add(window);
+                }
+            }
+            
+            // 添加屋顶
+            const roofGeometry = new THREE.BoxGeometry(2.2, 0.2, 2.2);
+            const roofMaterial = new THREE.MeshPhongMaterial({ color: 0x404040 });
+            const roof = new THREE.Mesh(roofGeometry, roofMaterial);
+            roof.position.y = 0.85;
+            scene.add(roof);
+            
+            // 添加底座
+            const baseGeometry = new THREE.BoxGeometry(2.5, 0.1, 2.5);
+            const baseMaterial = new THREE.MeshPhongMaterial({ color: 0xA9A9A9 });
+            const base = new THREE.Mesh(baseGeometry, baseMaterial);
+            base.position.y = -0.85;
+            scene.add(base);
+            
+            // 动画循环
+            function animate() {
+                requestAnimationFrame(animate);
+                
+                // 缓慢旋转模型
+                building.rotation.y += 0.005;
+                roof.rotation.y += 0.005;
+                base.rotation.y += 0.005;
+                
+                renderer.render(scene, camera);
+            }
+            
+            animate();
+            
+            // 控制按钮
+            document.getElementById('rotate-left').addEventListener('click', function() {
+                building.rotation.y -= 0.3;
+                roof.rotation.y -= 0.3;
+                base.rotation.y -= 0.3;
+            });
+            
+            document.getElementById('rotate-right').addEventListener('click', function() {
+                building.rotation.y += 0.3;
+                roof.rotation.y += 0.3;
+                base.rotation.y += 0.3;
+            });
+            
+            document.getElementById('zoom-in').addEventListener('click', function() {
+                camera.position.z -= 0.5;
+            });
+            
+            document.getElementById('zoom-out').addEventListener('click', function() {
+                camera.position.z += 0.5;
+            });
+            
+            document.getElementById('reset-view').addEventListener('click', function() {
+                camera.position.z = 5;
+                building.rotation.y = 0;
+                roof.rotation.y = 0;
+                base.rotation.y = 0;
+            });
+            
+            // 模型缩略图切换
+            document.querySelectorAll('.model-thumbnail').forEach(thumbnail => {
+                thumbnail.addEventListener('click', function() {
+                    document.querySelectorAll('.model-thumbnail').forEach(thumb => {
+                        thumb.classList.remove('active', 'ring-2', 'ring-[#0B3D91]');
+                    });
+                    
+                    this.classList.add('active', 'ring-2', 'ring-[#0B3D91]');
+                    
+                    const modelType = this.getAttribute('data-model');
+                    changeModel(modelType);
+                });
+            });
+            
+            function changeModel(modelType) {
+                // 清除现有模型
+                scene.remove(building);
+                scene.remove(roof);
+                scene.remove(base);
+                
+                // 根据选择的模型类型创建新模型
+                if (modelType === 'building1') {
+                    // 现代公寓楼
+                    const buildingGeometry = new THREE.BoxGeometry(2, 1.5, 2);
+                    const buildingMaterial = new THREE.MeshPhongMaterial({ color: 0x0B3D91 });
+                    const newBuilding = new THREE.Mesh(buildingGeometry, buildingMaterial);
+                    scene.add(newBuilding);
+                    
+                    const roofGeometry = new THREE.BoxGeometry(2.2, 0.2, 2.2);
+                    const roofMaterial = new THREE.MeshPhongMaterial({ color: 0x404040 });
+                    const newRoof = new THREE.Mesh(roofGeometry, roofMaterial);
+                    newRoof.position.y = 0.85;
+                    scene.add(newRoof);
+                    
+                    const baseGeometry = new THREE.BoxGeometry(2.5, 0.1, 2.5);
+                    const baseMaterial = new THREE.MeshPhongMaterial({ color: 0xA9A9A9 });
+                    const newBase = new THREE.Mesh(baseGeometry, baseMaterial);
+                    newBase.position.y = -0.85;
+                    scene.add(newBase);
+                    
+                    // 更新动画中的模型引用
+                    building = newBuilding;
+                    roof = newRoof;
+                    base = newBase;
+                } else if (modelType === 'building2') {
+                    // 传统建筑
+                    const buildingGeometry = new THREE.CylinderGeometry(1, 1, 1.5, 8);
+                    const buildingMaterial = new THREE.MeshPhongMaterial({ color: 0x8B4513 });
+                    const newBuilding = new THREE.Mesh(buildingGeometry, buildingMaterial);
+                    scene.add(newBuilding);
+                    
+                    const roofGeometry = new THREE.ConeGeometry(1.5, 0.8, 8);
+                    const roofMaterial = new THREE.MeshPhongMaterial({ color: 0xCD5C5C });
+                    const newRoof = new THREE.Mesh(roofGeometry, roofMaterial);
+                    newRoof.position.y = 1.15;
+                    scene.add(newRoof);
+                    
+                    const baseGeometry = new THREE.CylinderGeometry(1.2, 1.2, 0.1, 8);
+                    const baseMaterial = new THREE.MeshPhongMaterial({ color: 0xA9A9A9 });
+                    const newBase = new THREE.Mesh(baseGeometry, baseMaterial);
+                    newBase.position.y = -0.85;
+                    scene.add(newBase);
+                    
+                    // 更新动画中的模型引用
+                    building = newBuilding;
+                    roof = newRoof;
+                    base = newBase;
+                } else if (modelType === 'building3') {
+                    // 商业综合体
+                    const buildingGeometry = new THREE.BoxGeometry(2.5, 0.8, 2.5);
+                    const buildingMaterial = new THREE.MeshPhongMaterial({ color: 0x0B3D91 });
+                    const newBuilding = new THREE.Mesh(buildingGeometry, buildingMaterial);
+                    scene.add(newBuilding);
+                    
+                    const towerGeometry = new THREE.BoxGeometry(0.8, 1.5, 0.8);
+                    const towerMaterial = new THREE.MeshPhongMaterial({ color: 0x4682B4 });
+                    const tower = new THREE.Mesh(towerGeometry, towerMaterial);
+                    tower.position.set(0.8, 1.15, 0.8);
+                    scene.add(tower);
+                    
+                    const roofGeometry = new THREE.BoxGeometry(2.7, 0.2, 2.7);
+                    const roofMaterial = new THREE.MeshPhongMaterial({ color: 0x404040 });
+                    const newRoof = new THREE.Mesh(roofGeometry, roofMaterial);
+                    newRoof.position.y = 0.3;
+                    scene.add(newRoof);
+                    
+                    const baseGeometry = new THREE.BoxGeometry(3, 0.1, 3);
+                    const baseMaterial = new THREE.MeshPhongMaterial({ color: 0xA9A9A9 });
+                    const newBase = new THREE.Mesh(baseGeometry, baseMaterial);
+                    newBase.position.y = -0.45;
+                    scene.add(newBase);
+                    
+                    // 更新动画中的模型引用
+                    building = newBuilding;
+                    roof = newRoof;
+                    base = newBase;
+                }
+            }
+            
+            // 初始化AI模型预览
+            initAiModelViewer();
+        }
+        
+        // 初始化AI模型预览
+        function initAiModelViewer() {
+            // 创建场景
+            const scene = new THREE.Scene();
+            scene.background = new THREE.Color(0xf0f0f0);
+            
+            // 创建相机
+            const camera = new THREE.PerspectiveCamera(75, document.getElementById('ai-model-container').offsetWidth / document.getElementById('ai-model-container').offsetHeight, 0.1, 1000);
+            camera.position.z = 5;
+            
+            // 创建渲染器
+            const renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(document.getElementById('ai-model-container').offsetWidth, document.getElementById('ai-model-container').offsetHeight);
+            document.getElementById('ai-model-container').appendChild(renderer.domElement);
+            
+            // 添加灯光
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+            scene.add(ambientLight);
+            
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            directionalLight.position.set(1, 1, 1);
+            scene.add(directionalLight);
+            
+            // 创建一个简单的建筑模型
+            const buildingGeometry = new THREE.BoxGeometry(2, 1.5, 2);
+            const buildingMaterial = new THREE.MeshPhongMaterial({ color: 0x0B3D91 });
+            const building = new THREE.Mesh(buildingGeometry, buildingMaterial);
+            scene.add(building);
+            
+            // 添加屋顶
+            const roofGeometry = new THREE.BoxGeometry(2.2, 0.2, 2.2);
+            const roofMaterial = new THREE.MeshPhongMaterial({ color: 0x404040 });
+            const roof = new THREE.Mesh(roofGeometry, roofMaterial);
+            roof.position.y = 0.85;
+            scene.add(roof);
+            
+            // 添加底座
+            const baseGeometry = new THREE.BoxGeometry(2.5, 0.1, 2.5);
+            const baseMaterial = new THREE.MeshPhongMaterial({ color: 0xA9A9A9 });
+            const base = new THREE.Mesh(baseGeometry, baseMaterial);
+            base.position.y = -0.85;
+            scene.add(base);
+            
+            // 动画循环
+            function animate() {
+                requestAnimationFrame(animate);
+                
+                // 缓慢旋转模型
+                building.rotation.y += 0.005;
+                roof.rotation.y += 0.005;
+                base.rotation.y += 0.005;
+                
+                renderer.render(scene, camera);
+            }
+            
+            animate();
+            
+            // 控制按钮
+            document.getElementById('ai-rotate-left').addEventListener('click', function() {
+                building.rotation.y -= 0.3;
+                roof.rotation.y -= 0.3;
+                base.rotation.y -= 0.3;
+            });
+            
+            document.getElementById('ai-rotate-right').addEventListener('click', function() {
+                building.rotation.y += 0.3;
+                roof.rotation.y += 0.3;
+                base.rotation.y += 0.3;
+            });
+            
+            document.getElementById('ai-zoom-in').addEventListener('click', function() {
+                camera.position.z -= 0.5;
+            });
+            
+            document.getElementById('ai-zoom-out').addEventListener('click', function() {
+                camera.position.z += 0.5;
+            });
+            
+            document.getElementById('ai-reset-view').addEventListener('click', function() {
+                camera.position.z = 5;
+                building.rotation.y = 0;
+                roof.rotation.y = 0;
+                base.rotation.y = 0;
+            });
+        }
+        
+        // 页面加载完成后执行
+        window.addEventListener('load', function() {
+            // 初始化滚动动画
+            handleScrollAnimation();
+            
+            // 初始化返回顶部按钮
+            handleBackToTop();
+            
+            // 初始化进度条动画
+            document.querySelectorAll('.progress-bar-fill').forEach(bar => {
+                const width = bar.getAttribute('data-width');
+                setTimeout(() => {
+                    bar.style.width = width;
+                }, 300);
+            });
+            
+            // 初始化Three.js模型
+            initThreeJsModel();
+        });
+        
+        // 滚动时执行
+        window.addEventListener('scroll', function() {
+            handleScrollAnimation();
+            handleBackToTop();
+        });
+        
+        // 窗口大小改变时重新调整Three.js渲染器大小
+        window.addEventListener('resize', function() {
+            const modelContainers = document.querySelectorAll('#model-container, #ai-model-container');
+            
+            modelContainers.forEach(container => {
+                const renderer = container.querySelector('canvas');
+                if (renderer) {
+                    const scene = container.querySelector('canvas').parentNode;
+                    const camera = scene.camera; // 这里需要根据实际情况获取相机
+                    
+                    if (camera) {
+                        camera.aspect = container.offsetWidth / container.offsetHeight;
+                        camera.updateProjectionMatrix();
+                    }
+                    
+                    renderer.width = container.offsetWidth;
+                    renderer.height = container.offsetHeight;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
